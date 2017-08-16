@@ -28,8 +28,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.common.constants.QjxtConstant;
-import com.common.constants.QjxtResult;
+import com.common.constants.ErpConstant;
+import com.common.constants.ErpResult;
 import com.common.util.RedisUtil;
 import com.user.bean.Member;
 import com.user.service.MemberService;
@@ -94,7 +94,7 @@ public class HomeController extends BaseController{
             _log.debug("认证中心帐号通过，带code回跳：{}", backurl);
             return "redirect:" + backurl;
         }*/
-    	return new QjxtResult(QjxtConstant.SUCCESS, "redirect:/login");
+    	return new ErpResult(ErpConstant.SUCCESS, "redirect:/login");
     }
     
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -104,11 +104,11 @@ public class HomeController extends BaseController{
         //String password = request.getParameter("password");
         //String rememberMe = request.getParameter("rememberMe");
         if (StringUtils.isBlank(member.getUsername())) {
-            return new QjxtResult(QjxtConstant.EMPTY_USERNAME, "帐号不能为空！");
+            return new ErpResult(ErpConstant.EMPTY_USERNAME, "帐号不能为空！");
         	//System.out.println("帐号不能为空！");
         }
         if (StringUtils.isBlank(member.getPassword())) {
-            return new QjxtResult(QjxtConstant.EMPTY_PASSWORD, "密码不能为空！");
+            return new ErpResult(ErpConstant.EMPTY_PASSWORD, "密码不能为空！");
         	//System.out.println("密码不能为空！");
         }
         Subject subject = SecurityUtils.getSubject();
@@ -125,13 +125,13 @@ public class HomeController extends BaseController{
             try {
                 subject.login(usernamePasswordToken);
             } catch (UnknownAccountException e) {
-                return new QjxtResult(QjxtConstant.INVALID_USERNAME, "帐号不存在！");
+                return new ErpResult(ErpConstant.INVALID_USERNAME, "帐号不存在！");
             	//System.out.println("帐号不存在！");
             } catch (IncorrectCredentialsException e) {
-            	return new QjxtResult(QjxtConstant.INVALID_PASSWORD, "密码错误！");
+            	return new ErpResult(ErpConstant.INVALID_PASSWORD, "密码错误！");
             	//System.out.println("密码错误！");
             } catch (LockedAccountException e) {
-               	return new QjxtResult(QjxtConstant.INVALID_ACCOUNT, "帐号已锁定！");
+               	return new ErpResult(ErpConstant.INVALID_ACCOUNT, "帐号已锁定！");
             	//System.out.println("帐号已锁定！");
             }//
          // 全局会话sessionId列表，供会话管理
@@ -145,6 +145,6 @@ public class HomeController extends BaseController{
             System.out.println("555555555555555555555555555555555555555555555555555555555");
         }
         
-        return new QjxtResult(QjxtConstant.SUCCESS, "/");
+        return new ErpResult(ErpConstant.SUCCESS, "/");
     }
 }

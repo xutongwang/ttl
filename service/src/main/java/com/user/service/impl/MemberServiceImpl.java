@@ -23,4 +23,23 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return false;
 	}
+	public Member getMemberByUsername(String username) {
+		Member member = null;
+		try {
+			member = memeberDao.selectByUsername(username);
+			return member;
+		} catch (Exception e) {
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			return member;
+		}
+	}
+	public Member getMemberById(Integer id) {
+		Member member = null;
+		try {
+			member = memeberDao.selectByPrimaryKey(id);
+		} catch (Exception e) {
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+		}
+		return member;
+	}
 }
